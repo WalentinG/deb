@@ -1,0 +1,254 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'deb-api'
+servers:
+  - url: 'http://127.0.0.1/8989'
+paths:
+  /createTournament:
+    post:
+      tags:
+        - admin
+      summary: 'CreateTournament'
+      operationId: 'createTournament'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                required:
+                  - code
+                  - msg
+                  - data
+                properties:
+                  code:
+                    type: integer
+                    default: 0
+                  msg:
+                    type: string
+                    default: 'ok'
+  /registerTeam:
+    post:
+      tags:
+        - admin
+      summary: 'RegisterTeam'
+      operationId: 'registerTeam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - team_id
+              properties:
+                team_id:
+                  type: string
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                required:
+                  - code
+                  - msg
+                  - data
+                properties:
+                  code:
+                    type: integer
+                    default: 0
+                  msg:
+                    type: string
+                    default: 'ok'
+  /startTournament:
+    post:
+      tags:
+        - admin
+      summary: 'StartTournament'
+      operationId: 'StartTournament'
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                required:
+                  - code
+                  - msg
+                  - data
+                properties:
+                  code:
+                    type: integer
+                    default: 0
+                  msg:
+                    type: string
+                    default: 'ok'
+  /getGames:
+    get:
+      summary: 'getGames'
+      operationId: getGames
+      tags:
+        - user
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                required:
+                  - code
+                  - msg
+                  - data
+                properties:
+                  code:
+                    type: integer
+                    default: 0
+                  msg:
+                    type: string
+                    default: 'ok'
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Game'
+
+  /finishGame:
+    post:
+      summary: 'FinishGame'
+      operationId: finishGame
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - game_id
+                - dire_score
+                - radiant_score
+              properties:
+                game_id:
+                  type: string
+                dire_score:
+                  type: integer
+                radiant_score:
+                  type: integer
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                required:
+                  - code
+                  - msg
+                  - data
+                properties:
+                  code:
+                    type: integer
+                    default: 0
+                  msg:
+                    type: string
+                    default: 'ok'
+
+  /getStandings:
+    get:
+      summary: 'GetStandings'
+      tags:
+        - user
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            application/json:
+              schema:
+                required:
+                  - code
+                  - msg
+                  - data
+                properties:
+                  code:
+                    type: integer
+                    default: 0
+                  msg:
+                    type: string
+                    default: 'ok'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - team
+                        - points
+                        - wins
+                        - score
+                        - games
+                      properties:
+                        team:
+                          $ref: '#/components/schemas/Team'
+                        points:
+                          type: integer
+                        wins:
+                          type: integer
+                        score:
+                          type: integer
+                        games:
+                          type: integer
+components:
+  schemas:
+    Team:
+      type: object
+      required:
+        - id
+        - name
+        - radiant_avatar
+        - dire_avatar
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        radiant_avatar:
+          type: string
+        dire_avatar:
+          type: string
+    Game:
+      type: object
+      required:
+         - id
+         - round
+         - radiant_team
+         - dire_team
+      properties:
+        id:
+          type: string
+        round:
+          type: integer
+        radiant_team:
+          $ref: '#/components/schemas/Team'
+        dire_team:
+          $ref: '#/components/schemas/Team'
+        radiant_score:
+          type: integer
+        dire_score:
+          type: integer
+  securitySchemes:
+    Token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - Token: [ ]

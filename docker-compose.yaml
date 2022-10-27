@@ -1,0 +1,63 @@
+version: '3.9'
+volumes:
+  redis:
+services:
+  redis:
+    image: redis:6.2-alpine
+    healthcheck:
+      test: redis-cli ping
+      interval: 5s
+      timeout: 5s
+      retries: 6
+    restart: always
+    ports:
+      - '63791:6379'
+    volumes:
+      - redis:/data
+
+  mysql:
+    image: yobasystems/alpine-mariadb:10
+    restart: always
+    user: root
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: deb
+      MYSQL_PASSWORD: deb
+      MYSQL_DATABASE: deb
+      MYSQL_CHARACTER_SET: utf8mb4
+      MYSQL_COLLATE: utf8mb4_general_ci
+
+  php-api: &php-api
+    image: "ghcr.io/kulaxyz/php:8.1-webman"
+    working_dir: /var/www/backend
+    volumes:
+      - ./:/var/www/
+    command: "php start.php start"
+    environment:
+      DB_DATABASE: deb
+      DB_PASSWORD: deb
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - '8989:8989'
+    depends_on:
+      - mysql
+      - redis
+
+#  php-sockets:
+#    <<: *php-api
+#    ports:
+#      - '8282:8282'
+#    command: 'php sockets/start.php start'
+
+  php-migrate:
+    image: migrate/migrate
+    restart: 'no'
+    volumes:
+      - ./backend/migrations:/migrations
+    command: "-path /migrations -database 'mysql://root:deb@tcp(mysql:3306)/deb' up"
+    depends_on:
+      - mysql
+    profiles:
+      - migration

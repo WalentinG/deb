@@ -1,0 +1,35 @@
+includes:
+  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
+parameters:
+    level: 9
+    paths:
+        - support
+        - config
+        - app
+
+    excludePaths:
+        - support/bootstrap
+        - config/route.php
+
+    parallel:
+        jobSize: 20
+        maximumNumberOfProcesses: 16
+        minimumNumberOfJobsPerProcess: 2
+        processTimeout: 300.0
+
+    scanDirectories:
+        - support
+        - process
+
+    scanFiles:
+
+    bootstrapFiles:
+        - config/bootstrap.php
+        - config/autoload.php
+        - vendor/autoload.php
+
+    dynamicConstantNames:
+    ignoreErrors:
+        - '#Match expression does not handle remaining value#'
+        - '#Property .+ is never read, only written.#'

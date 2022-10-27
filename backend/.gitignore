@@ -1,0 +1,9 @@
+/.idea
+/.vscode
+/vendor
+/data
+*.log
+.env
+.php-cs-fixer.cache
+.deptrac.cache
+/sockets/vendor
