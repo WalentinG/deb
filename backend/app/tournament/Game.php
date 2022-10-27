@@ -61,11 +61,11 @@ final class Game
         );
     }
 
-    public static function all(string $tournamentId): Collection
+    public static function games(string $tournamentId): Collection
     {
         return Db::table('games as g')
             ->select(array_merge(
-                ['g.round', 'g.dire_score', 'g.radiant_score'],
+                ['g.id', 'g.round', 'g.dire_score', 'g.radiant_score'],
                 selectAs('d', 'dire_team', ['id', 'name']),
                 selectAs('r', 'radiant_team', ['id', 'name']),
             ))

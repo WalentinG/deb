@@ -39,9 +39,14 @@ final class TournamentController
         return ok();
     }
 
-    public function games(): Response
+    public function rounds(): Response
     {
-        return ok(Game::all(Tournament::id()));
+        $rounds = [];
+        foreach (Game::games(Tournament::id())->groupBy('round') as $round => $roundGames) {
+            $rounds[] = ['id' => $round, 'games' => $roundGames];
+        }
+
+        return ok($rounds);
     }
 
     public function finishGame(Request $request): Response

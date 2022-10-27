@@ -13,7 +13,7 @@ Route::group('', function (): void {
     Route::post('/createTournament', [TournamentController::class, 'create']);
     Route::post('/registerTeam', [TournamentController::class, 'registerTeam']);
     Route::post('/startTournament', [TournamentController::class, 'start']);
-    Route::get('/getGames', [TournamentController::class, 'games']);
+    Route::get('/getRounds', [TournamentController::class, 'rounds']);
     Route::post('/finishGame', [TournamentController::class, 'finishGame']);
     Route::get('/getStandings', [TournamentController::class, 'standings']);
 });

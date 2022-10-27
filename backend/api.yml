@@ -96,10 +96,10 @@ paths:
                   msg:
                     type: string
                     default: 'ok'
-  /getGames:
+  /getRounds:
     get:
-      summary: 'getGames'
-      operationId: getGames
+      summary: 'GetRounds'
+      operationId: GetRounds
       tags:
         - user
       responses:
@@ -121,7 +121,7 @@ paths:
                     default: 'ok'
                   data:
                     items:
-                      $ref: '#/components/schemas/Game'
+                      $ref: '#/components/schemas/Round'
 
   /finishGame:
     post:
@@ -225,6 +225,17 @@ components:
           type: string
         dire_avatar:
           type: string
+    Round:
+      type: object
+      required:
+        - id
+        - games
+      properties:
+        id:
+          type: integer
+        games:
+          items:
+            $ref: '#/components/schemas/Game'
     Game:
       type: object
       required:

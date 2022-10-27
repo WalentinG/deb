@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS games (
     `round` int(255) NOT NULL,
     `tournament_id` varchar(255) NOT NULL,
     `dire_team_id` varchar(255) NOT NULL,
-    `dire_scroe` int NULL,
+    `dire_score` int NULL,
     `radiant_score` int NULL,
     `radiant_team_id` varchar(255) NOT NULL,
     PRIMARY KEY (id),
