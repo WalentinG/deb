@@ -22,3 +22,6 @@ sh:
 
 api-migrate:
 	$(call compose, run --rm php-migrate)
+
+build:
+	$(call compose, build)

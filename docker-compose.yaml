@@ -29,7 +29,8 @@ services:
       MYSQL_COLLATE: utf8mb4_general_ci
 
   php-api: &php-api
-    image: "ghcr.io/kulaxyz/php:8.1-webman"
+#    image: "ghcr.io/kulaxyz/php:8.1-webman"
+    build: "./backend"
     working_dir: /var/www/backend
     volumes:
       - ./:/var/www/
